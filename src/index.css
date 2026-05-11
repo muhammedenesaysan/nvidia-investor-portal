@@ -1,0 +1,235 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-nvidia: #76B900;
+  --color-deep-black: #000000;
+  --color-dark-gray: #121212;
+  --color-text-body: #E0E0E0;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --font-size-xs: clamp(0.65rem, 0.6rem + 0.25vw, 0.75rem);
+  --font-size-sm: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+  --font-size-base: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+  --font-size-lg: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
+  --font-size-xl: clamp(1.125rem, 1rem + 0.6vw, 1.25rem);
+  --font-size-2xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
+  --font-size-3xl: clamp(1.5rem, 1.3rem + 1vw, 2rem);
+  --font-size-4xl: clamp(2rem, 1.75rem + 1.25vw, 2.5rem);
+  --font-size-5xl: clamp(2.5rem, 2rem + 1.5vw, 3.5rem);
+
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 0.3; filter: blur(8px); }
+    50% { opacity: 0.6; filter: blur(12px); }
+  }
+
+  @keyframes scan {
+    from { top: 0%; }
+    to { top: 100%; }
+  }
+
+  --animate-scan: scan 4s linear infinite;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@layer utilities {
+  .glass-card {
+    @apply bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-2xl transition-all duration-500;
+    -webkit-backdrop-filter: blur(24px);
+  }
+  
+  .glass-card:hover {
+    @apply scale-[1.05] border-nvidia/40 shadow-[0_0_30px_rgba(118,185,0,0.2)];
+  }
+
+  .logo-reflection {
+    @apply relative flex flex-col items-center;
+  }
+  
+  .logo-reflection::after {
+    content: "";
+    @apply absolute -bottom-4 w-full h-2 bg-nvidia/40 blur-md rounded-full opacity-50;
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-black text-[#E0E0E0] antialiased selection:bg-nvidia selection:text-black min-h-screen min-h-[100dvh] overflow-x-hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@layer utilities {
+  .backdrop-blur-fix {
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-black/60 backdrop-blur-xl border border-white/5 shadow-2xl relative overflow-hidden;
+    -webkit-backdrop-filter: blur(24px);
+    background-image: 
+      linear-gradient(135deg, rgba(118, 185, 0, 0.05) 0%, transparent 50%),
+      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 100% 100%, 20px 20px;
+  }
+  
+  .tech-panel, .tech-panel-glowing {
+    @apply relative border border-nvidia/30 bg-[#050505] rounded-none overflow-hidden backdrop-blur-md;
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: inset 0 0 20px rgba(118, 185, 0, 0.05), 0 5px 15px rgba(0, 0, 0, 0.8);
+  }
+
+  .tech-panel-glowing {
+    @apply border-nvidia/60;
+    box-shadow: inset 0 0 30px rgba(118, 185, 0, 0.1), 0 0 25px rgba(118, 185, 0, 0.15);
+  }
+
+  .tech-corner {
+    @apply absolute w-5 h-5 border-nvidia opacity-90;
+  }
+  .tech-corner-tl { @apply top-0 left-0 border-t-2 border-l-2; }
+  .tech-corner-tr { @apply top-0 right-0 border-t-2 border-r-2; }
+  .tech-corner-bl { @apply bottom-0 left-0 border-b-2 border-l-2; }
+  .tech-corner-br { @apply bottom-0 right-0 border-b-2 border-r-2; }
+
+  .neon-border-left {
+    @apply border-l-2 border-nvidia shadow-[-10px_0_20px_rgba(118,185,0,0.2)];
+  }
+
+  .neon-glow {
+    @apply text-nvidia font-black;
+    text-shadow: 0 0 15px rgba(118, 185, 0, 0.9), 0 0 35px rgba(118, 185, 0, 0.4), 0 0 60px rgba(118, 185, 0, 0.2);
+  }
+
+  .numeric-glow {
+    @apply text-white font-black drop-shadow-[0_0_10px_rgba(118,185,0,0.4)];
+    filter: drop-shadow(0 0 12px rgba(118, 185, 0, 0.3));
+  }
+
+  .heading-nvidia {
+    @apply font-black tracking-tighter uppercase italic text-white leading-[0.85];
+  }
+
+  .glass-card {
+    @apply bg-black/40 border border-white/5 backdrop-blur-xl relative overflow-hidden box-border;
+  }
+
+  .main-container {
+    @apply w-full relative min-h-screen bg-black overflow-x-hidden;
+    box-shadow: 0 0 100px rgba(0,0,0,0.5);
+  }
+
+  /* Fluid Padding Utilities for all screen sizes */
+  .px-safe {
+    @apply px-4 sm:px-8 md:px-12 lg:px-20;
+  }
+
+  .py-safe {
+    @apply py-6 sm:py-10 md:py-16 lg:py-24;
+  }
+
+  .bg-atmosphere {
+    @apply fixed inset-0 pointer-events-none z-0;
+  }
+  .button-glow:hover {
+    @apply shadow-[0_0_25px_rgba(118,185,0,0.3)] border-nvidia bg-nvidia/5 brightness-125;
+  }
+
+  .progress-bar {
+    @apply h-1 bg-[#111] rounded-none overflow-hidden;
+  }
+
+  .progress-fill {
+    @apply h-full bg-nvidia shadow-[0_0_15px_#76B900];
+  }
+
+  .ticker-wrap {
+    @apply w-full overflow-hidden bg-black/95 border-b border-nvidia/30 py-2.5 z-[100];
+  }
+
+  .ticker {
+    @apply flex whitespace-nowrap;
+    animation: ticker 40s linear infinite;
+  }
+
+  .circuit-bg {
+    background-color: #000000;
+    background-image: 
+      radial-gradient(circle at 50% 50%, rgba(118, 185, 0, 0.08) 0%, transparent 60%),
+      linear-gradient(rgba(118, 185, 0, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(118, 185, 0, 0.03) 1px, transparent 1px);
+    background-size: 100% 100%, 50px 50px, 50px 50px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    /* iOS fixed background fix */
+    transform: translateZ(0); 
+    will-change: transform;
+  }
+
+  .circuit-traces {
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10 L40 10 L50 20 L50 50 M60 10 L90 10 L90 40 L80 50 M10 90 L10 60 L20 50 L50 50 M90 90 L60 90 L50 80 L50 50' stroke='%2376B900' stroke-width='0.5' fill='none' opacity='0.2'/%3E%3C/svg%3E");
+    background-size: 300px 300px;
+    @apply absolute inset-0 opacity-10 pointer-events-none;
+  }
+
+  .laser-beam {
+    @apply h-[1px] w-full bg-gradient-to-r from-transparent via-nvidia to-transparent absolute opacity-20;
+    box-shadow: 0 0 10px rgba(118, 185, 0, 0.5);
+  }
+
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
+  }
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .pl-safe {
+    padding-left: env(safe-area-inset-left);
+  }
+  .pr-safe {
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
+@keyframes scan {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(1000%); }
+}
+
+.animate-scan {
+  animation: scan 4s linear infinite;
+}
+
+@keyframes holographic-pulse {
+  0%, 100% { opacity: 0.6; filter: blur(40px) brightness(1); }
+  50% { opacity: 0.9; filter: blur(60px) brightness(1.3); }
+}
+
+.hologram-glow {
+  animation: holographic-pulse 4s ease-in-out infinite;
+}
+
+.scroll-hide::-webkit-scrollbar {
+  display: none;
+}
+.scroll-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
